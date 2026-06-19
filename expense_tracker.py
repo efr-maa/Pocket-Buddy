@@ -26,6 +26,7 @@ def get_user_expense():
     "💼 Work", 
     "🎉 Fun", 
     "👌 Misc"
+    " others"
   ]
 
   while True:
