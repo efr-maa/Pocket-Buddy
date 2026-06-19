@@ -3,16 +3,16 @@ from expense import Expense
 
 def main():
   print(f"📌 Running Pocket Buddy!")
+  expense_file_path = "expenses.csv"
 
   # Get users input for expense
   expense = get_user_expense()
-  print(expense)
 
   # Write their expense to a file
-  save_expense_to_file()
+  save_expense_to_file(expense, expense_file_path)
 
   # Read file and summarize their expenses
-  summarize_expense()
+  summarize_expense(expense_file_path)
   
 
 
@@ -38,15 +38,17 @@ def get_user_expense():
 
     if selceted_index in range(len(expense_categories)):
       selected_category = expense_categories[selceted_index]
-      new_expense = Expense(name=expense_categories, category=selected_category, amount=expense_amount)
-      return 
+      new_expense = Expense(name=expense_name, category=selected_category, amount=expense_amount)
+      return new_expense
     else: 
       print("Invalid category. Please try again!")
 
   
 
-def save_expense_to_file():
-  print(f"📌 Saving user Expense")
+def save_expense_to_file(expense, expense_file_path):
+  print(f"📌 Saving user Expense: {expense} to {expense_file_path}")
+  with open(expense_file_path, "a") as f:
+    f.write(f"{expense.name},{expense.amount},{expense.category}/n")
  
 
 def summarize_expense():
