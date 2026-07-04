@@ -15,13 +15,12 @@ def main():
     save_expense_to_file(expense, expense_file_path)
 
     # Read file and summarize expenses.
-    summarize_expenses(expense_file_path, budget)
+    summarize_expenses(expense_file_path, budget, expense)
 
 
 def get_user_expense():
-    print(f"🎯 Getting User Expense")
     expense_name = input("Enter expense name: ")
-    expense_amount = float(input("Enter expense amount: "))
+    expense_amount = float(input("Enter expense amount ($): "))
     expense_categories = [
         "🍔 Food",
         "🏠 Home",
@@ -33,10 +32,9 @@ def get_user_expense():
     while True:
         print("Select a category: ")
         for i, category_name in enumerate(expense_categories):
-            print(f"  {i + 1}. {category_name}")
+            print(f"{i + 1}. {category_name}")
 
-        value_range = f"[1 - {len(expense_categories)}]"
-        selected_index = int(input(f"Enter a category number {value_range}: ")) - 1
+        selected_index = int(input(f"Enter a category number: ")) - 1
 
         if selected_index in range(len(expense_categories)):
             selected_category = expense_categories[selected_index]
@@ -49,13 +47,11 @@ def get_user_expense():
 
 
 def save_expense_to_file(expense: Expense, expense_file_path):
-    print(f"🎯 Saving User Expense: {expense} to {expense_file_path}")
     with open(expense_file_path, "a", encoding="utf-8") as f:
         f.write(f"{expense.name},{expense.amount},{expense.category}\n")
 
 
-def summarize_expenses(expense_file_path, budget):
-    print(f"🎯 Summarizing User Expense")
+def summarize_expenses(expense_file_path, budget, new_expense):
     expenses: list[Expense] = []
     with open(expense_file_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
@@ -68,6 +64,10 @@ def summarize_expenses(expense_file_path, budget):
             )
             expenses.append(line_expense)
 
+    total_spent = sum([x.amount for x in expenses])
+    print(f"You've added {new_expense.name} (${new_expense.amount:.2f}) to your expenses.")
+    print(f"You have {len(expenses)} expenses totalling ${total_spent:.2f}.")
+
     amount_by_category = {}
     for expense in expenses:
         key = expense.category
@@ -76,26 +76,27 @@ def summarize_expenses(expense_file_path, budget):
         else:
             amount_by_category[key] = expense.amount
 
-    print("Expenses By Category 📈:")
+    print()
+    print("📈 Expenses by category")
     for key, amount in amount_by_category.items():
-        print(f"  {key}: ${amount:.2f}")
-
-    total_spent = sum([x.amount for x in expenses])
-    print(f"💵 Total Spent: ${total_spent:.2f}")
+        print(f"{key}: ${amount:.2f}")
 
     remaining_budget = budget - total_spent
-    print(f"✅ Budget Remaining: ${remaining_budget:.2f}")
 
     now = datetime.datetime.now()
     days_in_month = calendar.monthrange(now.year, now.month)[1]
     remaining_days = days_in_month - now.day
 
     daily_budget = remaining_budget / remaining_days
-    print(green(f"👉 Budget Per Day: ${daily_budget:.2f}"))
+
+    print()
+    print("💵 Budget")
+    print(pink(f"You have ${remaining_budget:.2f} left to spend this month."))
+    print(pink(f"That's roughly ${daily_budget:.2f} per day."))
 
 
-def green(text):
-    return f"\033[92m{text}\033[0m"
+def pink(text):
+    return f"\033[38;5;198m{text}\033[0m"
 
 
 if __name__ == "__main__":
