@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Register — Pocket Buddy{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <h1>Create your account</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">
+      {{ form.username.label }}
+      {{ form.username(size=32) }}
+      {% for error in form.username.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.email.label }}
+      {{ form.email(size=32) }}
+      {% for error in form.email.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.password.label }}
+      {{ form.password(size=32) }}
+      {% for error in form.password.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.confirm_password.label }}
+      {{ form.confirm_password(size=32) }}
+      {% for error in form.confirm_password.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Create account</button>
+  </form>
+  <p class="muted">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+</div>
+{% endblock %}
