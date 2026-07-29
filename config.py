@@ -9,8 +9,7 @@ class Config:
 
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
-    # Render/Azure/Heroku-style Postgres URLs sometimes start with postgres://
-    # SQLAlchemy 1.4+/2.x requires postgresql://, so normalize it here.
+    
     _database_url = os.environ.get("DATABASE_URL")
     if _database_url and _database_url.startswith("postgres://"):
         _database_url = _database_url.replace("postgres://", "postgresql://", 1)
