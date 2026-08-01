@@ -11,7 +11,7 @@
   <tbody>
     {% for e in expenses %}
     <tr>
-      <td>{{ e.date_added.strftime("%b %-d, %Y") }}</td>
+      <td>{{ e.date_added.strftime("%b") }} {{ e.date_added.day }}, {{ e.date_added.year }}</td>
       <td>{{ e.name }}</td>
       <td>{{ e.category.label }}</td>
       <td>${{ "%.2f"|format(e.amount) }}</td>
