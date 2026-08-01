@@ -43,7 +43,7 @@
     <tbody>
       {% for e in summary.expenses[:5] %}
       <tr>
-        <td>{{ e.date_added.strftime("%b %-d") }}</td>
+        <td>{{ e.date_added.strftime("%b") }} {{ e.date_added.day }}</td>
         <td>{{ e.name }}</td>
         <td>{{ e.category.label }}</td>
         <td>${{ "%.2f"|format(e.amount) }}</td>
