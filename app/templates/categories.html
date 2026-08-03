@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Categories — Pocket Buddy{% endblock %}
+{% block content %}
+<h1>Categories</h1>
+
+<div class="card auth-card">
+  <h2>Add a category</h2>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">
+      {{ form.name.label }}
+      {{ form.name(size=24) }}
+      {% for error in form.name.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.emoji.label }}
+      {{ form.emoji(size=6) }}
+      {% for error in form.emoji.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Add category</button>
+  </form>
+</div>
+
+<section class="card">
+  <h2>Your categories</h2>
+  <ul class="category-breakdown">
+    {% for c in categories %}
+    <li>
+      <span>{{ c.label }}</span>
+      <form method="post" action="{{ url_for('main.delete_category', category_id=c.id) }}" onsubmit="return confirm('Delete this category?');">
+        <button type="submit" class="link-button">Delete</button>
+      </form>
+    </li>
+    {% else %}
+    <li class="muted">No categories yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

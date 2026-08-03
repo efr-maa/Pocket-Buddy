@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{% if editing %}Edit{% else %}Add{% endif %} expense — Pocket Buddy{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <h1>{% if editing %}Edit expense{% else %}Add an expense{% endif %}</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">
+      {{ form.name.label }}
+      {{ form.name(size=32) }}
+      {% for error in form.name.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.amount.label }}
+      {{ form.amount() }}
+      {% for error in form.amount.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.category_id.label }}
+      {{ form.category_id() }}
+      {% for error in form.category_id.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.date_added.label }}
+      {{ form.date_added() }}
+      {% for error in form.date_added.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">{% if editing %}Save changes{% else %}Add expense{% endif %}</button>
+  </form>
+</div>
+{% endblock %}

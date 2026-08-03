@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Settings — Pocket Buddy{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <h1>Budget settings</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">
+      {{ form.monthly_budget.label }}
+      {{ form.monthly_budget() }}
+      {% for error in form.monthly_budget.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
+{% endblock %}
